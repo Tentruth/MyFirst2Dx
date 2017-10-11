@@ -15,6 +15,10 @@ private:
 
 	int  _sceneno;
 	char _cSceneNo[10];
+	float _elaptime = 0;
+	int _fangle = 0;
+	bool _bTouched = false;
+	cocos2d :: Sprite *_bean;
 
 public:
     static cocos2d::Scene* createScene();
