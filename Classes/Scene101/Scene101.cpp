@@ -40,9 +40,11 @@ bool Scene101::init()
 
 	_bean = Sprite::create("scene101/bean01.png");  // 使用 create 函式,給予檔名即可
 	_bean->setPosition(Vec2(330,593));// 位置通常放置在螢幕正中間
-	_bean->setScale(2);
 	this->addChild(_bean, 0);
-
+	size = _bean->getContentSize();
+	Point pt = _bean->getPosition;
+	_bean->setPosition(Vec2(origin.x + visibleSize.width - size.width / 2, origin.y + visibleSize.height - size.height / 2));
+	_Sbean = Rect(pt.x - size.width / 2, pt.y - size.height / 2, size.width, size.height);
 	// 自行增加 sprite 將 bean01.png 到螢幕正中間
 
 
@@ -117,12 +119,7 @@ bool Scene101::init()
 
 void Scene101::doStep(float dt)  // OnFrameMove
 {
-	if (_bTouched)
-	{
-		_elaptime += dt;
-		_fangle = _elaptime * 180;
-		_bean->setRotation(_fangle);
-	}
+	
 }
 
 bool  Scene101::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//觸碰開始事件
@@ -138,19 +135,36 @@ bool  Scene101::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//�
 		unscheduleAllCallbacks();
 		Director::getInstance()->end();
 	}
-	_bTouched = !_bTouched;
+	if (_Sbean.containsPoint(touchLoc))
+	{
+		_bOnbean = true;
+		_tp = touchLoc;
+	}
 	return true;
 }
 
 void  Scene101::onTouchMoved(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //觸碰移動事件
 {
-
+	Point touchLoc = pTouch->getLocation();
+	if (_bOnbean)
+	{
+		Point op = touchLoc - _tp;
+		Point pt = _bean->getPosition();
+		_bean->setPosition(pt + op);
+		_tp = touchLoc;
+	}
 
 }
 
 void  Scene101::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //觸碰結束事件 
 {
-
+	if (_bOnbean)
+	{
+	
+		_bOnbean = false;
+		Point pt = _bean->getPosition;
+		_bean->setPosition(Vec2(origin.x + visibleSize.width - size.width / 2, origin.y + visibleSize.height - size.height / 2));
+	}
 
 
 }

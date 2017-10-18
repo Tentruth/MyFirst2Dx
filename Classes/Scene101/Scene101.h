@@ -18,8 +18,12 @@ private:
 	float _elaptime = 0;
 	int _fangle = 0;
 	bool _bTouched = false;
+	bool _MToved = false;
 	cocos2d :: Sprite *_bean;
-
+	Rect _Sbean;
+	cocos2d :: Rect    _Sbean;
+	bool _bOnbean = false;
+	Point _tp;
 public:
     static cocos2d::Scene* createScene();
 
